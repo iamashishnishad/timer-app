@@ -205,7 +205,6 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     try {
       const jsonContent = JSON.stringify(history, null, 2);
       Clipboard.setString(jsonContent);
-      // Verify clipboard content
       Clipboard.getString().then((content) => {
         if (content === jsonContent) {
           Alert.alert('Success', 'History copied to clipboard!');
@@ -306,10 +305,13 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   // Dynamic styles based on theme
   const themedStyles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
+    scrollContainer: {
+      flexGrow: 1, // Ensures ScrollView content can grow beyond screen height
       backgroundColor: theme === 'light' ? '#fff' : '#333',
+    },
+    contentContainer: {
+      padding: 20,
+      paddingBottom: 100, // Extra padding to ensure bottom content is scrollable
     },
     title: {
       fontSize: 20,
@@ -317,7 +319,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       marginBottom: 10,
       color: theme === 'light' ? '#000' : '#fff',
     },
-    form: { marginBottom: 20 },
+    form: {
+      marginBottom: 20,
+    },
     input: {
       borderWidth: 1,
       borderColor: theme === 'light' ? '#ccc' : '#555',
@@ -347,7 +351,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     filterButtonText: {
       color: theme === 'light' ? '#000' : '#fff',
     },
-    categoryContainer: { marginBottom: 15 },
+    categoryContainer: {
+      marginBottom: 15,
+    },
     categoryHeader: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -374,7 +380,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     bulkButtonText: {
       color: theme === 'light' ? '#000' : '#fff',
     },
-    timerList: { paddingLeft: 10 },
+    timerList: {
+      paddingLeft: 10,
+    },
     timerItem: {
       padding: 10,
       borderBottomWidth: 1,
@@ -441,7 +449,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   });
 
   return (
-    <ScrollView style={themedStyles.container}>
+    <ScrollView
+      style={themedStyles.scrollContainer}
+      contentContainerStyle={themedStyles.contentContainer}
+    >
       <Text style={themedStyles.title}>Timer List</Text>
       {/* Theme Toggle */}
       <View style={themedStyles.switchContainer}>
